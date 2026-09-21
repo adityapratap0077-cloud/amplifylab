@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AmplifyLab — Virtual PCR &amp; Gel Electrophoresis Studio</title>
+  <meta name="description" content="AmplifyLab: a virtual PCR studio with real amplification kinetics and an animated gel electrophoresis tank. Design primers, run cycles, watch your DNA migrate." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav id="nav">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26"><path d="M8 4c0 8 16 8 16 16M8 28c0-8 16-8 16-16" stroke="url(#g1)" stroke-width="2.6" fill="none" stroke-linecap="round"/><defs><linearGradient id="g1" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#e879f9"/></linearGradient></defs></svg>
+      </span>
+      <span class="brand-name">Amplify<em>Lab</em></span>
+    </a>
+    <button id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <div id="navLinks">
+      <a href="#pcr">PCR Studio</a>
+      <a href="#gel">Gel Studio</a>
+      <a href="#learn">Learn</a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <p class="kicker">Virtual molecular biology bench</p>
+      <h1>Amplify DNA.<br /><span class="grad">See it move.</span></h1>
+      <p class="hero-sub">Design primers, run a thermocycler with real amplification kinetics, then load your product onto a virtual agarose gel and watch it migrate — all in your browser.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#pcr">Open PCR Studio</a>
+        <a class="btn btn-ghost" href="#gel">Run a Gel</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>~1200</strong><span>bp sample template</span></div>
+        <div><strong>3</strong><span>simulation modules</span></div>
+        <div><strong>0</strong><span>pipettes harmed</span></div>
+      </div>
+    </div>
+    <a class="scroll-hint" href="#pcr" aria-label="Scroll to PCR Studio">↓</a>
+  </header>
+
+  <main>
+    <!-- ============ MODULE 1: PCR STUDIO ============ -->
+    <section class="section" id="pcr">
+      <p class="kicker">Module 01</p>
+      <h2>PCR Studio</h2>
+      <p class="lede">Polymerase chain reaction, simulated honestly: primer binding is checked against your actual template, efficiency responds to your annealing temperature, and the amplification curve follows real exponential kinetics until reagents run out.</p>
+
+      <div class="grid-2">
+        <!-- Template card -->
+        <div class="card">
+          <h3>🧬 Template DNA</h3>
+          <label class="field-label" for="templateSeq">Template sequence (5′ → 3′)</label>
+          <textarea id="templateSeq" rows="6" spellcheck="false" placeholder="Paste a DNA sequence — A, T, C, G only…"></textarea>
+          <div class="row-between">
+            <span id="templateCount" class="mono muted">0 bp</span>
+            <span id="templateError" class="err" role="alert" hidden></span>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-small btn-primary" id="btnSample">Load sample template</button>
+            <button class="btn btn-small btn-ghost" id="btnRandom">Random template</button>
+            <button class="btn btn-small btn-ghost" id="btnClearTemplate">Clear</button>
+          </div>
+          <p class="hint">The sample template is a deterministic ~1200 bp synthetic construct with known primer-binding sites baked in — perfect for a first run.</p>
+        </div>
+
+        <!-- Primers card -->
+        <div class="card">
+          <h3>🧪 Primers</h3>
+          <label class="field-label" for="fwdPrimer">Forward primer (5′ → 3′)</label>
+          <input id="fwdPrimer" class="mono" type="text" spellcheck="false" placeholder="e.g. ATGCGTACGTTAGCCGTA" autocomplete="off" />
+          <div class="primer-card" id="fwdAnalysis"></div>
+          <label class="field-label" for="revPrimer">Reverse primer (5′ → 3′)</label>
+          <input id="revPrimer" class="mono" type="text" spellcheck="false" placeholder="e.g. GCTAACGTACGCATAGCC" autocomplete="off" />
+          <div class="primer-card" id="revAnalysis"></div>
+          <div id="primerWarnings"></div>
+        </div>
+      </div>
+
+      <!-- Thermocycler controls -->
+      <div class="card">
+        <h3>🌡️ Thermocycler program</h3>
+        <div class="slider-grid">
+          <div>
+            <div class="row-between">
+              <label class="field-label" for="taSlider">Annealing temperature</label>
+              <span class="mono readout" id="taValue">55 °C</span>
+            </div>
+            <input type="range" id="taSlider" min="45" max="72" step="0.5" value="55" />
+          </div>
+          <div>
+            <div class="row-between">
+              <label class="field-label" for="cycleSlider">Cycles</label>
+              <span class="mono readout" id="cycleValue">30</span>
+            </div>
+            <input type="range" id="cycleSlider" min="15" max="40" step="1" value="30" />
+          </div>
+        </div>
+        <div class="eff-panel">
+          <div><span class="muted">Per-cycle efficiency</span><br /><strong class="mono big" id="effValue">–</strong></div>
+          <div><span class="muted">Amplicon size</span><br /><strong class="mono big" id="ampliconValue">–</strong></div>
+          <div class="verdict-wrap"><span class="muted">Verdict</span><br /><strong id="effVerdict">Enter a template and primers to begin.</strong></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btnRunPcr">▶ Run PCR</button>
+          <button class="btn btn-ghost" id="btnSendGel" disabled>Send product to gel ↓</button>
+        </div>
+      </div>
+
+      <!-- PCR results -->
+      <div class="card" id="pcrResultsCard" hidden>
+        <h3>📈 Amplification curve</h3>
+        <canvas id="pcrCanvas" class="plot"></canvas>
+        <div class="stat-row">
+          <div class="stat"><span class="muted">Final yield</span><strong class="mono" id="yieldCopies">–</strong></div>
+          <div class="stat"><span class="muted">Mass</span><strong class="mono" id="yieldNg">–</strong></div>
+          <div class="stat"><span class="muted">Product</span><strong class="mono" id="yieldBp">–</strong></div>
+        </div>
+        <p class="hint">Curve phases: <span class="phase-b">baseline</span> → <span class="phase-e">exponential</span> → <span class="phase-l">linear</span> → <span class="phase-p">plateau</span> (reagents exhausted).</p>
+      </div>
+    </section>
+
+    <!-- ============ MODULE 2: GEL STUDIO ============ -->
+    <section class="section" id="gel">
+      <p class="kicker">Module 02</p>
+      <h2>Gel Electrophoresis Studio</h2>
+      <p class="lede">Load your PCR product next to a 100 bp ladder and run the tank. Migration follows <span class="mono">d = (A − B·log₁₀bp) · f(agarose) · g(voltage) · t</span> — smaller fragments run farther, denser gels resolve them better.</p>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>🧫 Samples</h3>
+          <div class="lane-def">
+            <strong>Lane 1 — 100 bp ladder</strong>
+            <span class="muted">100–1500 bp · 500 &amp; 1000 bp bands are brighter</span>
+          </div>
+          <label class="field-label" for="gelSample">Lane 2 — PCR product (bp)</label>
+          <input id="gelSample" class="mono" type="text" inputmode="numeric" placeholder="e.g. 768 — or use “Send product to gel”" />
+          <label class="field-label" for="gelSample2">Lane 3 — extra sample (comma-separated bp)</label>
+          <input id="gelSample2" class="mono" type="text" inputmode="numeric" placeholder="e.g. 250, 900" />
+          <span id="gelInputError" class="err" role="alert" hidden></span>
+        </div>
+        <div class="card">
+          <h3>⚡ Tank controls</h3>
+          <div class="row-between">
+            <label class="field-label" for="agaroseSlider">Agarose concentration</label>
+            <span class="mono readout" id="agaroseValue">1.0 %</span>
+          </div>
+          <input type="range" id="agaroseSlider" min="0.7" max="2" step="0.1" value="1" />
+          <p class="hint">Higher % → slower migration, sharper separation of small fragments.</p>
+          <div class="row-between">
+            <label class="field-label" for="voltageSlider">Voltage</label>
+            <span class="mono readout" id="voltageValue">100 V</span>
+          </div>
+          <input type="range" id="voltageSlider" min="60" max="150" step="5" value="100" />
+          <p class="hint">Higher voltage → faster run, but bands broaden and smile at the extremes.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="btnGelRun">▶ Run</button>
+            <button class="btn btn-ghost" id="btnGelPause" disabled>⏸ Pause</button>
+            <button class="btn btn-ghost" id="btnGelReset">↺ Reset</button>
+            <button class="btn btn-small btn-ghost" id="btnGelSpeed" aria-pressed="false">Speed: 1×</button>
+          </div>
+          <div class="row-between" style="margin-top:.75rem">
+            <span class="muted">Run progress</span>
+            <span class="mono" id="gelProgress">0 %</span>
+          </div>
+          <div class="progress"><div id="gelProgressBar"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔬 Gel tank <span class="muted" style="font-weight:400">— EtBr-style visualization</span></h3>
+        <canvas id="gelCanvas" class="gel"></canvas>
+        <div class="legend">
+          <span><i class="swatch bright"></i>Bright band (ladder reference)</span>
+          <span><i class="swatch band"></i>Sample band</span>
+          <span><i class="swatch dye"></i>Dye front</span>
+        </div>
+      </div>
+
+      <div class="card" id="gelResultsCard" hidden>
+        <h3>📏 Band analysis <span class="muted" style="font-weight:400">— sized against the ladder</span></h3>
+        <div class="table-wrap">
+          <table id="gelTable">
+            <thead><tr><th>Lane</th><th>Expected (bp)</th><th>Observed (bp)</th><th>Error</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="hint" id="gelNote"></p>
+      </div>
+    </section>
+
+    <!-- ============ MODULE 3: LEARN ============ -->
+    <section class="section" id="learn">
+      <p class="kicker">Module 03</p>
+      <h2>Learn the science</h2>
+      <p class="lede">The thirty-second version of what the simulators above are doing.</p>
+      <div class="learn-grid">
+        <div class="card learn-card">
+          <div class="learn-icon">🔥</div>
+          <h3>Denaturation · 94–98 °C</h3>
+          <p>Heat breaks the hydrogen bonds between base pairs and the double helix melts into two single strands — giving primers access to their binding sites.</p>
+        </div>
+        <div class="card learn-card">
+          <div class="learn-icon">🧲</div>
+          <h3>Annealing · 50–65 °C</h3>
+          <p>The reaction cools and primers latch onto their complementary sequences. Set this ~3–5 °C below primer T<sub>m</sub>: too hot and nothing binds; too cold and primers stick everywhere.</p>
+        </div>
+        <div class="card learn-card">
+          <div class="learn-icon">🏗️</div>
+          <h3>Extension · 72 °C</h3>
+          <p>Taq polymerase extends each primer 5′ → 3′, copying the template. Each cycle doubles the target region — 30 cycles can turn one molecule into over a billion copies.</p>
+        </div>
+        <div class="card learn-card">
+          <div class="learn-icon">⚡</div>
+          <h3>How gels separate DNA</h3>
+          <p>DNA is negatively charged, so it migrates toward the positive electrode. The agarose matrix acts as a sieve: small fragments snake through quickly, large ones lag behind — separating purely by size.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <p><strong>AmplifyLab</strong> — built by <strong>Aditya Pratap</strong>, Creative Technologist</p>
+    <p class="footer-links">
+      <a href="https://my-portfolio-khaki-gamma-94.vercel.app/" target="_blank" rel="noopener">Portfolio</a>
+      <span aria-hidden="true">·</span>
+      <a href="https://github.com/adityapratap0077-cloud" target="_blank" rel="noopener">GitHub</a>
+    </p>
+    <p class="muted small">Simulations are educational models, not substitutes for bench protocols. No pipettes were harmed.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
