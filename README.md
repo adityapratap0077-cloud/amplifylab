@@ -1,16 +1,26 @@
-# 🧬 AmplifyLab — Virtual PCR & Gel Electrophoresis Studio
+<div align="center">
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-coming_soon-8E75FF?style=for-the-badge)](https://github.com/adityapratap0077-cloud)
-[![Vanilla JS](https://img.shields.io/badge/Vanilla_JS-no_frameworks-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](./app.js)
-[![License: MIT](https://img.shields.io/badge/License-MIT-4ade80?style=for-the-badge)](./LICENSE)
+# AMPLIFYLAB
 
-> **Amplify DNA. See it move.** A cinematic, fully interactive virtual bench for the polymerase chain reaction and agarose gel electrophoresis — with honest simulation math under the hood.
+### Amplify DNA. See it move.
+
+![AmplifyLab](https://img.shields.io/badge/AMPLIFYLAB-2026-%23F2F0EB?style=for-the-badge&labelColor=%23060608)
+![Status](https://img.shields.io/badge/STATUS-LIVE-%237A1212?style=for-the-badge&labelColor=%23060608)
+![Stack](https://img.shields.io/badge/STACK-VANILLA_JS-%23060608?style=for-the-badge&labelColor=%23060608)
+![License](https://img.shields.io/badge/License-MIT-%23060608?style=for-the-badge&labelColor=%23060608)
+
+A cinematic, fully interactive virtual bench for the polymerase chain
+reaction and agarose gel electrophoresis — with honest simulation math
+under the hood.
+
+[Live Demo](https://amplifylab.vercel.app) • [GitHub](https://github.com/adityapratap0077-cloud/amplifylab)
+
+</div>
 
 ---
 
-## ✨ Features
+## PCR Studio
 
-### 🔬 PCR Studio
 - **Template validation** — A/T/C/G only, live base-pair counter, invalid-character error states
 - **Sample & random templates** — a deterministic ~1200 bp synthetic construct with baked-in primer-binding sites, or a fresh random sequence
 - **Live primer analysis** — length, GC%, T<sub>m</sub> (Wallace rule), and true binding-site search against your template (reverse primers matched via reverse complement)
@@ -18,25 +28,22 @@
 - **Efficiency model** — per-cycle efficiency responds to annealing temperature, template GC%, and primer-dimer penalties, with a plain-English verdict
 - **Animated amplification curve** — copies (log₁₀) vs. cycle with labeled baseline / exponential / linear / plateau phases, final yield in copies and ng
 
-### ⚡ Gel Electrophoresis Studio
+## Gel Electrophoresis Studio
+
 - **100 bp DNA ladder** (100–1500 bp, 500/1000 bp bands brighter), your PCR product auto-loaded, plus a third lane for custom bands
 - **Real migration physics** — `d = (A − B·log₁₀bp) · f(agarose) · g(voltage) · t`, rendered live with `requestAnimationFrame`
 - **Tank controls** — agarose % (0.7–2.0), voltage (60–150 V), run/pause/reset, 1×/4× speed
 - **EtBr-style visualization** — glowing bands, dye front, bp ruler, subtle band-broadening and "smiling" at voltage extremes
 - **Band analysis** — sample bands sized by interpolation against the ladder's migration curve, with expected-vs-observed error
 
-### 📚 Learn cards
-Concise explainers for denaturation, annealing, extension, and how gel electrophoresis separates DNA by size.
+## Learn cards
+
+Concise explainers for denaturation, annealing, extension, and how gel
+electrophoresis separates DNA by size.
 
 ---
 
-## 🚀 Live Demo
-
-> 🛠️ **Coming soon** — the live demo link will appear here after the first deployment.
-
----
-
-## 🧪 How it works
+## How it works
 
 1. **Load the sample template** in PCR Studio — primers are pre-filled and already validated against it.
 2. Tune the **annealing temperature** and **cycle count**, watch the efficiency verdict update live.
@@ -47,46 +54,46 @@ Concise explainers for denaturation, annealing, extension, and how gel electroph
 
 ---
 
-## 🛠️ Tech stack
+## Getting started
+
+```bash
+git clone https://github.com/adityapratap0077-cloud/amplifylab.git
+cd amplifylab
+```
+
+Open `index.html` in a browser — no build step:
+
+```bash
+python3 -m http.server 8080
+# open http://localhost:8080
+```
+
+## Deploy
+
+Static site — push to `main` and Vercel auto-deploys production.
+
+---
+
+## Tech
 
 | Layer | Choice |
-|---|---|
+| :--- | :--- |
 | Language | Vanilla JavaScript (ES6+, zero frameworks) |
 | Rendering | HTML5 Canvas (amplification curve, gel tank, hero particles) |
-| Styling | Hand-written CSS — glassmorphism, neon accents, responsive grid |
+| Styling | Hand-written CSS — dark virtual-lab theme |
 | Fonts | Inter + JetBrains Mono (Google Fonts) |
 | Deploy | Static site — Vercel-ready via `vercel.json` |
 | CI | GitHub Actions (`ship.yml`: static checks + README freshness) |
-
----
-
-## 📁 Project structure
-
-```
-pcr-gel-lab/
-├── index.html          # App shell: nav, hero, 3 modules, footer
-├── styles.css          # Dark virtual-lab theme
-├── app.js              # Simulation engine (PCR + gel + canvas renderers)
-├── vercel.json         # Static-site deployment config
-├── .github/workflows/ship.yml
-├── README.md
-├── LICENSE
-└── .gitignore
-```
-
----
-
-## 👨‍🔬 Author
-
-**Aditya Pratap** — Creative Technologist · B.Sc. (Hons) Biotechnology
-
-- 🌐 Portfolio: https://my-portfolio-khaki-gamma-94.vercel.app/
-- 💻 GitHub: https://github.com/adityapratap0077-cloud
 
 *Simulations are educational models, not substitutes for bench protocols. No pipettes were harmed.*
 
 ---
 
-## 📄 License
+## License
 
 MIT © 2026 Aditya Pratap — see [LICENSE](./LICENSE).
+
+---
+
+**Aditya Pratap** — Creative Technologist
+Gorakhpur, India — github.com/adityapratap0077-cloud
