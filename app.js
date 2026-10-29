@@ -669,7 +669,7 @@ gel.tick = function (now) {
   gel.p = Math.min(1, gel.p + (dt * gel.speed) / GEL_RUN_MS);
   const pct = Math.round(gel.p * 100);
   $("gelProgress").textContent = pct + " %";
-  $("gelProgressBar").style.width = pct + "%";
+  $("gelProgressBar").style.transform = "scaleX(" + gel.p + ")";
   gel.draw();
   if (gel.p >= 1) {
     gel.running = false;
@@ -754,7 +754,7 @@ function initGel() {
     cancelAnimationFrame(gel.raf);
     gel.p = 0;
     $("gelProgress").textContent = "0 %";
-    $("gelProgressBar").style.width = "0%";
+    $("gelProgressBar").style.transform = "scaleX(0)";
     $("gelResultsCard").hidden = true;
     gel.setButtons();
     gel.draw();
