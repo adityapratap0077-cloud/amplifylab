@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AmplifyLab — Virtual PCR &amp; Gel Electrophoresis Studio</title>
+  <title>AmplifyLab: Virtual PCR &amp; Gel Electrophoresis Studio</title>
   <meta name="description" content="AmplifyLab: a virtual PCR studio with real amplification kinetics and an animated gel electrophoresis tank. Design primers, run cycles, watch your DNA migrate." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,7 +34,7 @@
     <div class="hero-inner">
       <p class="kicker">Virtual molecular biology bench</p>
       <h1>Amplify DNA.<br /><span class="grad">See it move.</span></h1>
-      <p class="hero-sub">Design primers, run a thermocycler with real amplification kinetics, then load your product onto a virtual agarose gel and watch it migrate — all in your browser.</p>
+      <p class="hero-sub">Design primers, run a thermocycler with real amplification kinetics, then load your product onto a virtual agarose gel and watch it migrate, all in your browser.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#pcr">Open PCR Studio</a>
         <a class="btn btn-ghost" href="#gel">Run a Gel</a>
@@ -60,7 +60,7 @@
         <div class="card">
           <h3>🧬 Template DNA</h3>
           <label class="field-label" for="templateSeq">Template sequence (5′ → 3′)</label>
-          <textarea id="templateSeq" rows="6" spellcheck="false" placeholder="Paste a DNA sequence — A, T, C, G only…"></textarea>
+          <textarea id="templateSeq" rows="6" spellcheck="false" placeholder="Paste a DNA sequence: A, T, C, G only…"></textarea>
           <div class="row-between">
             <span id="templateCount" class="mono muted">0 bp</span>
             <span id="templateError" class="err" role="alert" hidden></span>
@@ -70,7 +70,7 @@
             <button class="btn btn-small btn-ghost" id="btnRandom">Random template</button>
             <button class="btn btn-small btn-ghost" id="btnClearTemplate">Clear</button>
           </div>
-          <p class="hint">The sample template is a deterministic ~1200 bp synthetic construct with known primer-binding sites baked in — perfect for a first run.</p>
+          <p class="hint">The sample template is a deterministic ~1200 bp synthetic construct with known primer-binding sites baked in, perfect for a first run.</p>
         </div>
 
         <!-- Primers card -->
@@ -133,18 +133,18 @@
     <section class="section" id="gel">
       <p class="kicker">Module 02</p>
       <h2>Gel Electrophoresis Studio</h2>
-      <p class="lede">Load your PCR product next to a 100 bp ladder and run the tank. Migration follows <span class="mono">d = (A − B·log₁₀bp) · f(agarose) · g(voltage) · t</span> — smaller fragments run farther, denser gels resolve them better.</p>
+      <p class="lede">Load your PCR product next to a 100 bp ladder and run the tank. Migration follows <span class="mono">d = (A − B·log₁₀bp) · f(agarose) · g(voltage) · t</span>: smaller fragments run farther, denser gels resolve them better.</p>
 
       <div class="grid-2">
         <div class="card">
           <h3>🧫 Samples</h3>
           <div class="lane-def">
-            <strong>Lane 1 — 100 bp ladder</strong>
+            <strong>Lane 1: 100 bp ladder</strong>
             <span class="muted">100–1500 bp · 500 &amp; 1000 bp bands are brighter</span>
           </div>
-          <label class="field-label" for="gelSample">Lane 2 — PCR product (bp)</label>
-          <input id="gelSample" class="mono" type="text" inputmode="numeric" placeholder="e.g. 768 — or use “Send product to gel”" />
-          <label class="field-label" for="gelSample2">Lane 3 — extra sample (comma-separated bp)</label>
+          <label class="field-label" for="gelSample">Lane 2: PCR product (bp)</label>
+          <input id="gelSample" class="mono" type="text" inputmode="numeric" placeholder="e.g. 768, or use “Send product to gel”" />
+          <label class="field-label" for="gelSample2">Lane 3: extra sample (comma-separated bp)</label>
           <input id="gelSample2" class="mono" type="text" inputmode="numeric" placeholder="e.g. 250, 900" />
           <span id="gelInputError" class="err" role="alert" hidden></span>
         </div>
@@ -177,7 +177,7 @@
       </div>
 
       <div class="card">
-        <h3>🔬 Gel tank <span class="muted" style="font-weight:400">— EtBr-style visualization</span></h3>
+        <h3>🔬 Gel tank <span class="muted" style="font-weight:400">: EtBr-style visualization</span></h3>
         <canvas id="gelCanvas" class="gel"></canvas>
         <div class="legend">
           <span><i class="swatch bright"></i>Bright band (ladder reference)</span>
@@ -187,7 +187,7 @@
       </div>
 
       <div class="card" id="gelResultsCard" hidden>
-        <h3>📏 Band analysis <span class="muted" style="font-weight:400">— sized against the ladder</span></h3>
+        <h3>📏 Band analysis <span class="muted" style="font-weight:400">: sized against the ladder</span></h3>
         <div class="table-wrap">
           <table id="gelTable">
             <thead><tr><th>Lane</th><th>Expected (bp)</th><th>Observed (bp)</th><th>Error</th></tr></thead>
@@ -207,7 +207,7 @@
         <div class="card learn-card">
           <div class="learn-icon">🔥</div>
           <h3>Denaturation · 94–98 °C</h3>
-          <p>Heat breaks the hydrogen bonds between base pairs and the double helix melts into two single strands — giving primers access to their binding sites.</p>
+          <p>Heat breaks the hydrogen bonds between base pairs and the double helix melts into two single strands, giving primers access to their binding sites.</p>
         </div>
         <div class="card learn-card">
           <div class="learn-icon">🧲</div>
@@ -217,12 +217,12 @@
         <div class="card learn-card">
           <div class="learn-icon">🏗️</div>
           <h3>Extension · 72 °C</h3>
-          <p>Taq polymerase extends each primer 5′ → 3′, copying the template. Each cycle doubles the target region — 30 cycles can turn one molecule into over a billion copies.</p>
+          <p>Taq polymerase extends each primer 5′ → 3′, copying the template. Each cycle doubles the target region. 30 cycles can turn one molecule into over a billion copies.</p>
         </div>
         <div class="card learn-card">
           <div class="learn-icon">⚡</div>
           <h3>How gels separate DNA</h3>
-          <p>DNA is negatively charged, so it migrates toward the positive electrode. The agarose matrix acts as a sieve: small fragments snake through quickly, large ones lag behind — separating purely by size.</p>
+          <p>DNA is negatively charged, so it migrates toward the positive electrode. The agarose matrix acts as a sieve: small fragments snake through quickly, large ones lag behind, separating purely by size.</p>
         </div>
       </div>
     </section>
@@ -230,7 +230,7 @@
 
   <!-- ============ FOOTER ============ -->
   <footer>
-    <p><strong>AmplifyLab</strong> — built by <strong>Aditya Pratap</strong>, Creative Technologist</p>
+    <p><strong>AmplifyLab</strong>, built by <strong>Aditya Pratap</strong>, Creative Technologist</p>
     <p class="footer-links">
       <a href="https://my-portfolio-khaki-gamma-94.vercel.app/" target="_blank" rel="noopener">Portfolio</a>
       <span aria-hidden="true">·</span>
